@@ -9,19 +9,18 @@ use App\Http\Controllers\EventAanmeldController;
 
 Route::get('/', function () {
     return view('dashboardLogin');
-});
-Route::get('/login', function () {
-    return view('dashboardLogin');
-});
-Route::post('/login', [AuthController::class, 'login']);
+})->name('login');
 
-Route::get('/home', [HomeController::class, 'GetHomeData']);
-Route::post('/home', [HomeController::class, 'zoekEvent']);
+Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('/registreer', function () {
     return view('registratie');
 });
 Route::post('/registreer', [SignUpController::class, 'signup']);
+
+Route::middleware(['auth'])->group(function () {
+Route::get('/home', [HomeController::class, 'GetHomeData']);
+Route::post('/home', [HomeController::class, 'zoekEvent']);
 
 Route::post('/uitloggen', [AuthController::class, 'logout']);
 
@@ -34,3 +33,4 @@ Route::post('/profiel/update-email', [ProfielController::class, 'ProfielUpdateEm
 Route::post('/profiel/update-location', [ProfielController::class, 'ProfielUpdateLocation']);
 Route::post('/profiel/update-password', [ProfielController::class, 'ProfielUpdatePassword']);
 Route::post('/profiel/Delete', [ProfielController::class, 'ProfielDelete']);
+});
